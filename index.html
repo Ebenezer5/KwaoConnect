@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect - Login</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="signup-wrapper">
+        <form action="" id="login">
+            <div class="form-container">
+                <h2 class="logo">KwaoConnect</h2>
+                <p class="subtitle">Join the fastest telecom network in Ghana <br><h4>Login</h4></p>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input id="inputContact" type="tel" placeholder="Enter your phone number" required>
+                </div>
+                <span id="contactError" class="error-text"></span>
+
+                <!-- Password -->
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input id="inputPassword" type="password" placeholder="Enter your password" required>
+                </div>
+                <span id="passwordError" class="error-text"></span>
+
+                <button id="btn" type="submit">Login</button>
+
+                <p class="login-text">
+                    Don’t have an account? <a href="signup.html" id="accountLink">Register here</a>
+                </p>
+
+                <div class="footer-text">
+                    © 2026 KwaoConnect. All rights reserved
+                </div>
+            </div>
+        </form>
+    </div>
+
+<script src="js/login.js"></script>
+</body>
+</html>
