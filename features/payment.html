@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KwaoConnect - Payment</title>
+<link rel="stylesheet" href="../css/payment.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="payment-card">
+                    <a href="../features/purchaseType.html" class="back-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+        <h2><i class="fa-solid fa-credit-card"></i> Payment</h2>
+
+        <div class="amount-box">
+            Amount: GHS <span id="displayAmount"></span>
+        </div>
+
+        <form id="paymentForm">
+
+            <div class="payment-options">
+                <label>
+                    <input type="radio" name="paymentMethod" value="airtime">
+                    Pay with Airtime Balance
+                </label>
+
+                <label>
+                    <input type="radio" name="paymentMethod" value="momo">
+                    Pay with Mobile Money (MoMo)
+                </label>
+            </div>
+
+            <span id="paymentError" class="error-text"></span>
+
+            <button type="submit">Confirm Payment</button>
+
+        </form>
+
+    </div>
+
+<script src="../js/payment.js"></script>
+</body>
+</html>

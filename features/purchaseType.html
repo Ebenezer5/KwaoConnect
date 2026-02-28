@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <form action="" id="purchaseForm">
+      
+        <div class="purchase-card">
+            <a href="./airtime.html" class="back-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+
+        <h2>To Who?</h2>
+
+        <div class="purchase-type">
+            <label>
+                <input type="radio" name="purchaseFor" value="self" checked> Self
+            </label>
+            <label>
+                <input type="radio" name="purchaseFor" value="someone"> Someone
+            </label>
+        </div>
+
+
+    <div id="someoneNumberWrapper" class="hidden">
+        <input id="someoneNumber" type="text" placeholder="Enter phone number">
+        <span id="someoneError" class="error-text"></span>
+    </div>
+
+    <button type="submit" id="proceedBtn">Proceed</button>
+</div>
+    </form>
+
+
+
+<script src="../js/purchase.js"></script>
+</body>
+</html>

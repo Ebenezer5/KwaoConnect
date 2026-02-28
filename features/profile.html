@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<style>
+body {
+    background: #f4f6fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Container */
+.profile-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Glass Card */
+.profile-card {
+    width: 380px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+/* Top Banner */
+.profile-header {
+    background: linear-gradient(135deg, #ff6600, #ff3300);
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Initials Circle */
+#initials {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: white;
+    color: #ff6600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Body Section */
+.profile-body {
+    padding: 30px 25px;
+    text-align: center;
+}
+
+.profile-body h2 {
+    margin-bottom: 6px;
+    font-size: 22px;
+    color: #333;
+}
+
+.profile-body p {
+    font-size: 14px;
+    color: #2a2a2a;
+}
+
+/* Hover Lift */
+.profile-card:hover {
+    transform: translateY(-6px);
+}
+/* Back Arrow */
+.back-arrow {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    margin: 15px;
+    font-size: 16px;
+}
+
+.back-arrow i {
+    margin-right: 8px;
+}
+</style>
+
+<body>
+
+<div class="profile-container">
+
+    <div class="profile-card">
+        <a href="../dashboard.html" class="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="profile-header">
+            <div id="initials"></div>
+        </div>
+
+        <div class="profile-body">
+            <h2 id="fullName"></h2>
+            <p id="contact"></p>
+            <p id="dateJoined"></p>
+        </div>
+
+    </div>
+</div>
+
+<script src="../js/profile.js"></script>
+</body>
+</html>

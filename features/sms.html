@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect</title>
+    <link rel="stylesheet" href="../css/packages.css">
+</head>
+<body>
+<style>
+    .sms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
 
+.package-card {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.package-card.active {
+    border: 2px solid orange;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+}
+</style>
+
+<h2>SMS Bundle</h2>
+
+<form id="smsForm">
+
+    <label>Send SMS To:</label>
+    <input type="text" id="recipient" placeholder="Enter phone number">
+    <small id="recipientError" class="error"></small>
+
+    <h3>Select Package</h3>
+    <div class="sms-grid" id="smsGrid"></div>
+    <small id="packageError" class="error"></small>
+
+    <h3>Payment Method</h3>
+    <select id="paymentMethod">
+        <option value="">Select Payment Method</option>
+        <option value="airtime">Pay with Airtime</option>
+        <option value="momo">Pay with MoMo</option>
+    </select>
+
+    <p id="balanceInfo"></p>
+
+    <button type="submit">Proceed</button>
+
+</form>
+
+<script src="../js/sms.js"></script>
+</body>
+</html>

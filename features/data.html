@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KwaoConnect - Data Packages</title>
+<link rel="stylesheet" href="../css/data.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+<form id="dataForm">
+                    <a href="../dashboard.html" class="back-arrow">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+    <h2 class="page-title">
+        <i class="fa-solid fa-wifi"></i> Buy Data Bundle
+    </h2>
+
+    <div class="data-grid" id="dataGrid">
+        <!-- Packages will be coded by JS -->
+    </div>
+<div class="purchase-section">
+
+    <h3>Purchase For</h3>
+
+    <div class="purchase-options">
+        <label>
+            <input type="radio" name="purchaseFor" value="self" checked>
+            Self
+        </label>
+
+        <label>
+            <input type="radio" name="purchaseFor" value="someone">
+            Someone
+        </label>
+    </div>
+
+    <div id="someoneWrapper" class="hidden">
+        <input type="text" id="someoneNumber" placeholder="Enter phone number">
+        <span id="someoneError" class="error-text"></span>
+    </div>
+
+</div>
+    <span id="bundleError" class="error-text"></span>
+
+    <button type="submit" class="proceed-btn">Proceed</button>
+
+</form>
+
+<script src="../js/data.js"></script>
+</body>
+</html>
