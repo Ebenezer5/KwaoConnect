@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect - Sign Up</title>
+    <link rel="stylesheet" href="css/signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="signup-wrapper">
+        <div class="form-container">
+
+            <h2 class="logo">KwaoConnect</h2>
+            <p class="subtitle">Join the fastest telecom network in Ghana</p>
+
+            <form id="signup">
+            
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input id="inputName" type="text" placeholder="Full Name" required>
+                </div>
+                <span id="nameError" class="error-text"></span>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-id-card"></i>
+                    <input id="idCard" type="text" placeholder="Ghana ID Card" required>
+                </div>
+                <span id="idCardError" class="error-text"></span>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input id="inputContact" type="tel" placeholder="Phone Number" required>
+                </div>
+                <span id="contactError" class="error-text"></span>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input id="inputPassword" type="password" placeholder="Password" required>
+                </div>
+                <span id="passError" class="error-text"></span>
+
+                <button type="submit">Sign Up</button>
+
+                <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
+            </form>
+
+            <div class="footer-text">
+                © 2026 KwaoConnect. All rights reserved
+            </div>
+        </div>
+    </div>
+
+    <script src="js/signup.js"></script>
+</body>
+</html>

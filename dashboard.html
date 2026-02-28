@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwaoConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+        <h3>Settings</h3>
+        <i class="fa-solid fa-xmark" id="closeSidebar"></i>
+    </div>
+
+    <ul>
+        <li id="profile"><i class="fa-solid fa-user"></i> Profile</li>
+        <li id="themeToggle">
+        <i class="fa-solid fa-moon" id="themeIcon"></i> Theme</li>
+        <li id="sideLogout"><i class="fa-solid fa-right-from-bracket" id="logoutBtn"></i> Logout</li>
+    </ul>
+
+</div>
+        <div class="top-bar">
+
+        
+            <div class="settings">
+            <i class="fa-solid fa-gear settings-icon"></i>
+            </div>
+
+            
+            <div class="user-info">
+                <img src="pics/profile.png" alt="Profile Picture" class="profile-pic">
+                <h2 id="welcome"></h2>
+                <p id="contact"></p>
+            </div>
+
+            
+            <div class="logout-btn">
+                <button id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        
+        </div>
+
+        <div class="content-wrapper">
+            
+            <div class="slider">
+                <div class="slides">
+                    <img src="pics/airtime.png" class="slide active" alt="Airtime promotion">
+                    <img src="pics/data.png" class="slide active" alt="Data promotion">
+                </div>
+            </div>
+
+            <div class="dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
+        
+        
+            <h3>Balances</h3>
+            <div class="balances">
+
+                <div class="card">
+                    <h4><i class="fa-solid fa-phone"></i> Airtime</h4>
+                    <p id="airtime">GHS 0.00</p>
+                </div>
+
+                <div class="card">
+                    <h4><i class="fa-solid fa-wifi"></i> Data</h4>
+                    <p id="data">0 GB</p>
+                </div>
+
+                <div class="card">
+                    <h4><i class="fa-solid fa-message"></i> SMS</h4>
+                    <p id="SMS">0 </p>
+                </div>
+            </div>
+            
+         <br><br><br>
+         
+         <h3>Buy Packages</h3>
+        <div class="buy-cards">
+
+            <div class="buy-card">
+                <h4><i class="fa-solid fa-phone"></i> Airtime</h4>
+                <p>Buy GHS 5, 10, 20</p>
+                <button class="buy-btn" id="buyAirtime">Buy</button>
+            </div>
+
+            <div class="buy-card">
+                <h4><i class="fa-solid fa-wifi"></i> Data</h4>
+                <p>Buy 50MB, 100MB, 500MB</p>
+                <button class="buy-btn" id="buyData">Buy</button>
+            </div>
+
+            <div class="buy-card">
+                <h4><i class="fa-solid fa-message"></i> SMS</h4>
+                <p>Buy 5, 50, 100 SMS</p>
+                <button class="buy-btn" id="buySMS">Buy</button>
+            </div>
+
+        </div>
+
+
+
+    </div>
+        
+    
+        
+
+
+
+
+
+
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
