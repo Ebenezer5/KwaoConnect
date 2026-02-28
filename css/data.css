@@ -1,0 +1,139 @@
+body {
+    background-color: #ff6600;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+#dataForm {
+    max-width: 700px; /* reduced from 900px for medium size */
+    margin: 40px auto; /* slightly smaller top margin */
+    padding: 25px; /* reduced padding */
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px; /* slightly smaller corners */
+}
+
+.page-title {
+    text-align: center;
+    color: #fff;
+    font-size: 20px; /* reduced from 24px */
+    margin-bottom: 25px; /* smaller spacing */
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* slightly smaller cards */
+    gap: 15px; /* smaller gap */
+}
+
+.data-card {
+    padding: 15px; /* smaller padding */
+    border-radius: 15px; /* smaller corners */
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12); /* lighter shadow */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.data-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+}
+
+.data-card.active {
+    background: linear-gradient(135deg, #ff6600, #ff3300);
+    color: white;
+}
+
+.data-card.active .data-right {
+    color: white;
+}
+
+.data-left {
+    font-size: 14px; /* smaller text */
+    font-weight: 600;
+}
+
+.data-right {
+    font-size: 14px; /* smaller text */
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.proceed-btn {
+    margin-top: 30px;
+    padding: 12px; /* smaller padding */
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px; /* smaller font */
+    font-weight: 600;
+    background: white;
+    color: #ff3300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.proceed-btn:hover {
+    background: #ff3300;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.purchase-section {
+    margin-top: 25px; /* smaller spacing */
+    color: white;
+}
+
+.purchase-options {
+    display: flex;
+    gap: 15px; /* smaller gap */
+    margin: 10px 0 10px;
+}
+
+.purchase-options label {
+    cursor: pointer;
+}
+
+#someoneNumber {
+    width: 100%;
+    padding: 10px; /* smaller padding */
+    border-radius: 8px; /* smaller corners */
+    border: none;
+    outline: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.error-text {
+    color: #fff;
+    text-align: center;
+    margin-top: 12px; /* smaller margin */
+    font-size: 13px; /* slightly smaller text */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+.back-arrow {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    margin: 15px;
+    font-size: 16px;
+}
+
+.back-arrow i {
+    margin-right: 8px;
+}

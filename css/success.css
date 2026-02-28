@@ -1,0 +1,25 @@
+.success-card {
+    width: 400px;
+    margin: 120px auto;
+    padding: 40px;
+    background: white;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.checkmark {
+    font-size: 50px;
+    color: #0f9d58;
+    margin-bottom: 15px;
+}
+
+.success-card button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: #ff6600;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
