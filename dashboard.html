@@ -17,8 +17,6 @@
 
     <ul>
         <li id="profile"><i class="fa-solid fa-user"></i> Profile</li>
-        <li id="themeToggle">
-        <i class="fa-solid fa-moon" id="themeIcon"></i> Theme</li>
         <li id="sideLogout"><i class="fa-solid fa-right-from-bracket" id="logoutBtn"></i> Logout</li>
     </ul>
 
@@ -32,7 +30,7 @@
 
             
             <div class="user-info">
-                <img src="pics/profile.png" alt="Profile Picture" class="profile-pic">
+                <img src="pics/user.png" alt="Profile Picture" class="profile-pic">
                 <h2 id="welcome"></h2>
                 <p id="contact"></p>
             </div>
@@ -108,7 +106,14 @@
     </div>
         
     
-        
+
+<div id="welcomePopup" class="popup-overlay">
+    <div class="popup-card">
+        <h2>🎉 Welcome to KwaoConnect</h2>
+        <p id="popupMessage"></p>
+        <button id="closePopup">Start Exploring</button>
+    </div>
+</div>
 
 
 
