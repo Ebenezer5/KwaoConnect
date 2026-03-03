@@ -2,12 +2,34 @@ const paymentForm = document.getElementById("paymentForm");
 const displayAmount = document.getElementById("displayAmount");
 
 const paymentError = document.getElementById("paymentError");
+const balanceInfo = document.getElementById("balanceInfo");
 
-const amount = Number(localStorage.getItem("purchaseAmount"));
+const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
+
+let amount = Number(localStorage.getItem("purchaseAmount")) || 0;
 let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
-displayAmount.textContent = amount;
+if (!currentUser || !amount) {
+    window.location.href = "../dashboard.html";
+}
+
+currentUser.airtime = currentUser.airtime ?? 0;
+currentUser.momo = currentUser.momo ?? 0;
+
+displayAmount.textContent = `GHS ${amount.toFixed(2)}`;
+
+paymentOptions.forEach(option => {
+    option.addEventListener("change", () => {
+
+        const method = option.value;
+
+        balanceInfo.textContent =
+            `Your ${method.toUpperCase()} Balance: GHS ${currentUser[method].toFixed(2)}`;
+    });
+});
+
+
 
 paymentForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -21,37 +43,17 @@ paymentForm.addEventListener("submit", function (e) {
         return;
     }
 
-        if (selectedMethod.value === "airtime") {
+    const method = selectedMethod.value;
 
-        if (currentUser.airtime < amount) {
-            paymentError.textContent = "Insufficient airtime balance";
-            return;
-        }
-
-        
-        currentUser.airtime -= amount;
-
-        const userIndex = users.findIndex(user => user.ID === currentUser.ID);
-        if (userIndex !== -1) {
-            users[userIndex] = currentUser;
-        }
-
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        localStorage.setItem("users", JSON.stringify(users));
-
-        window.location.href = "../features/success.html";
-    }
-
-   if (selectedMethod.value === "momo") {
-
-    if (currentUser.momo < amount) {
-        paymentError.textContent = "Insufficient momo balance";
+    if (currentUser[method] < amount) {
+        paymentError.textContent = `Insufficient ${method} balance`;
         return;
     }
 
-    currentUser.momo -= amount;
+    currentUser[method] -= amount;
 
     const userIndex = users.findIndex(user => user.ID === currentUser.ID);
+
     if (userIndex !== -1) {
         users[userIndex] = currentUser;
     }
@@ -59,6 +61,9 @@ paymentForm.addEventListener("submit", function (e) {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     localStorage.setItem("users", JSON.stringify(users));
 
+    paymentForm.querySelector("button").disabled = true;
+
+    localStorage.removeItem("purchaseAmount");
+
     window.location.href = "../features/success.html";
-}
 });

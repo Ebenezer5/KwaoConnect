@@ -6,16 +6,12 @@ const form = document.getElementById("smsForm");
 const recipientInput = document.getElementById("recipient");
 const paymentMethod = document.getElementById("paymentMethod");
 
-const recipientError = document.getElementById("recipientError");
 const packageError = document.getElementById("packageError");
 const balanceInfo = document.getElementById("balanceInfo");
 
 let selectedSMS = null;
 let price = null;
 
-// ===============================
-// GENERATE SMS PACKAGES
-// ===============================
 const packages = [
     { sms: 5, price: 1 },
     { sms: 50, price: 5 },
@@ -45,9 +41,6 @@ packages.forEach(pkg => {
     smsGrid.appendChild(card);
 });
 
-// ===============================
-// SHOW BALANCE WHEN PAYMENT SELECTED
-// ===============================
 paymentMethod.addEventListener("change", () => {
 
     if (paymentMethod.value === "airtime") {
@@ -63,23 +56,13 @@ paymentMethod.addEventListener("change", () => {
     }
 });
 
-// ===============================
-// FORM SUBMIT
-// ===============================
 form.addEventListener("submit", (e) => {
 
     e.preventDefault();
 
-    recipientError.textContent = "";
     packageError.textContent = "";
 
-    const phone = recipientInput.value.trim();
 
-    // Validate phone
-    if (!/^0\d{9}$/.test(phone)) {
-        recipientError.textContent = "Enter valid 10 digit phone number";
-        return;
-    }
 
     if (!selectedSMS) {
         packageError.textContent = "Select a package";
@@ -90,10 +73,6 @@ form.addEventListener("submit", (e) => {
         alert("Select payment method");
         return;
     }
-
-    // ===============================
-    // PAYMENT LOGIC
-    // ===============================
 
     if (paymentMethod.value === "airtime") {
 
@@ -115,10 +94,8 @@ form.addEventListener("submit", (e) => {
         currentUser.momo -= price;
     }
 
-    // Add SMS
     currentUser.SMS += selectedSMS;
 
-    // Update users array
     let users = JSON.parse(localStorage.getItem("users"));
     const index = users.findIndex(u => u.contact === currentUser.contact);
     users[index] = currentUser;
@@ -129,6 +106,6 @@ form.addEventListener("submit", (e) => {
     // Prevent double submission
     form.querySelector("button").disabled = true;
 
-    // Redirect
-    window.location.href = "../success.html";
+    
+    window.location.href = "../features/success.html";
 });

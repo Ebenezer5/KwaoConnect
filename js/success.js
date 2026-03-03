@@ -15,7 +15,7 @@ localStorage.removeItem("purchaseAmount");
 localStorage.removeItem("purchaseData");
 
 backDashboard.addEventListener("click", () => {
-    window.location.href = "../dashboard.html";
+    window.location.href = "dashboard.html";
 });
 
 // ../features/success.html
