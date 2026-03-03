@@ -290,5 +290,60 @@ button:hover {
     color: #e65c00;
 }
 
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2000;
+}
 
+.popup-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
 
+.popup-card {
+    background: white;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 20px;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.popup-overlay.active .popup-card {
+    transform: scale(1);
+}
+
+.popup-card h2 {
+    color: #ff6600;
+    margin-bottom: 15px;
+}
+
+.popup-card p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.popup-card button {
+    background: #ff6600;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.popup-card button:hover {
+    background: #e65c00;
+}

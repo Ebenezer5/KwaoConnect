@@ -1,94 +1,94 @@
 body {
-    background: linear-gradient(135deg, #ff6600, #ff3300);
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff6600, #ff944d);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-}
-
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-}
-.back-arrow {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    margin: 15px;
-    font-size: 16px;
-}
-
-.back-arrow i {
-    margin-right: 8px;
+    min-height: 100vh;
 }
 
 .payment-card {
-    width: 400px;
-    background: white;
-    padding: 30px;
+    background: #ffffff;
+    width: 95%;
+    max-width: 420px;
+    padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    position: relative;
 }
 
-.payment-card h2 {
-    margin-bottom: 20px;
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
     color: #ff6600;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .amount-box {
-    background: #fff5f0;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    background: #fff4ec;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
     font-weight: bold;
-    color: #ff3300;
+    margin-bottom: 20px;
 }
 
 .payment-options label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f7f7f7;
     padding: 12px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
     border-radius: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
 .payment-options label:hover {
-    border-color: #ff6600;
-    background: #fff5f0;
+    background: #ffe5d6;
 }
 
-.payment-options input {
-    margin-right: 8px;
+input[type="radio"] {
+    accent-color: #ff6600;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    background: #ff6600;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: 0.3s ease;
-}
-
-button:hover {
-    background: #e65c00;
+#balanceInfo {
+    font-size: 13px;
+    margin: 10px 0;
+    color: #444;
+    font-weight: 500;
 }
 
 .error-text {
     color: red;
     font-size: 13px;
-    margin-top: 10px;
+    display: block;
+    margin-bottom: 10px;
 }
 
+button {
+    width: 100%;
+    padding: 14px;
+    background: #ff6600;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #e65c00;
+}
