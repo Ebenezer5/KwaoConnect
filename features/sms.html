@@ -2,61 +2,141 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>SMS Bundle - KwaoConnect</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KwaoConnect</title>
+
     <link rel="stylesheet" href="../css/packages.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6600, #ff944d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 95%;
+            max-width: 450px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff6600;
+        }
+
+        .sms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .package-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .package-card:hover {
+            background: #ffe5d6;
+        }
+
+        .package-card.active {
+            background: #ff6600;
+            color: white;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        #balanceInfo {
+            font-size: 13px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff6600;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+    </style>
 </head>
 <body>
-<style>
-    .sms-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
 
-.package-card {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background: #fff;
-    border-radius: 10px;
-    cursor: pointer;
-}
+<div class="container">
 
-.package-card.active {
-    border: 2px solid orange;
-}
+    <h2>Buy SMS Bundle</h2>
 
-.error {
-    color: red;
-    font-size: 13px;
-}
-</style>
+    <form id="smsForm">
 
-<h2>SMS Bundle</h2>
+        <h3>Select Package</h3>
+        <div class="sms-grid" id="smsGrid"></div>
+        <small id="packageError" class="error"></small>
 
-<form id="smsForm">
+        <h3>Payment Method</h3>
+        <select id="paymentMethod">
+            <option value="">Select Payment Method</option>
+            <option value="airtime">Pay with Airtime</option>
+            <option value="momo">Pay with MoMo</option>
+        </select>
 
-    <label>Send SMS To:</label>
-    <input type="text" id="recipient" placeholder="Enter phone number">
-    <small id="recipientError" class="error"></small>
+        <p id="balanceInfo"></p>
 
-    <h3>Select Package</h3>
-    <div class="sms-grid" id="smsGrid"></div>
-    <small id="packageError" class="error"></small>
+        <button type="submit">Proceed</button>
 
-    <h3>Payment Method</h3>
-    <select id="paymentMethod">
-        <option value="">Select Payment Method</option>
-        <option value="airtime">Pay with Airtime</option>
-        <option value="momo">Pay with MoMo</option>
-    </select>
+    </form>
 
-    <p id="balanceInfo"></p>
-
-    <button type="submit">Proceed</button>
-
-</form>
+</div>
 
 <script src="../js/sms.js"></script>
 </body>
