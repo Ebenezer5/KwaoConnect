@@ -1,57 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KwaoConnect - Sign Up</title>
-    <link rel="stylesheet" href="css/signup.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynk — Create account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-    <div class="signup-wrapper">
-        <div class="form-container">
+<div class="auth-shell">
+  <div class="auth-card">
 
-            <h2 class="logo">KwaoConnect</h2>
-            <p class="subtitle">Join the fastest telecom network in Ghana</p>
-
-            <form id="signup">
-            
-                <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input id="inputName" type="text" placeholder="Full Name" required>
-                </div>
-                <span id="nameError" class="error-text"></span>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-id-card"></i>
-                    <input id="idCard" type="text" placeholder="Ghana ID Card" required>
-                </div>
-                <span id="idCardError" class="error-text"></span>
-                
-                <div class="input-group">
-                    <i class="fa-solid fa-phone"></i>
-                    <input id="inputContact" type="tel" placeholder="Phone Number" required>
-                </div>
-                <span id="contactError" class="error-text"></span>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input id="inputPassword" type="password" placeholder="Password" required>
-                </div>
-                <span id="passError" class="error-text"></span>
-
-                <button type="submit">Sign Up</button>
-
-                <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
-            </form>
-
-            <div class="footer-text">
-                © 2026 KwaoConnect. All rights reserved
-            </div>
-        </div>
+    <div class="brand-mark">
+      <span class="brand-name">Zynk</span>
     </div>
 
-    <script src="js/signup.js"></script>
+    <h1 class="auth-title">Create your account</h1>
+    <br>
+    <form id="signup" novalidate>
+
+      <div class="field">
+        <label for="inputName">Full name</label>
+        <div class="field-input">
+          <i class="fa-solid fa-user"></i>
+          <input id="inputName" type="text" placeholder="First Last" required>
+        </div>
+        <span id="nameError" class="error-text"></span>
+      </div>
+
+      <div class="field">
+        <label for="idCard">Ghana card</label>
+        <div class="field-input">
+          <i class="fa-solid fa-id-card"></i>
+          <input id="idCard" type="text" placeholder="GHA-123456789-1" required>
+        </div>
+        <span id="idCardError" class="error-text"></span>
+      </div>
+
+      <div class="field">
+        <label for="inputContact">Phone number</label>
+        <div class="field-input">
+          <i class="fa-solid fa-phone"></i>
+          <input id="inputContact" type="tel" placeholder="024 000 0000" required>
+        </div>
+        <span id="contactError" class="error-text"></span>
+      </div>
+
+      <div class="field">
+        <label for="inputPassword">Password</label>
+        <div class="field-input">
+          <i class="fa-solid fa-lock"></i>
+          <input id="inputPassword" type="password" placeholder="At least 6 characters" required>
+        </div>
+        <span id="passError" class="error-text"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create account</button>
+
+      <p class="switch-text">Already on Zynk? <a href="index.html">Log in</a></p>
+    </form>
+
+    <p class="legal-text">© 2026 Zynk. All rights reserved.</p>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('signup');
+
+const inputName = document.getElementById('inputName');
+const inputContact = document.getElementById('inputContact');
+const inputID = document.getElementById('idCard');
+const inputPassword = document.getElementById('inputPassword');
+
+const nameError = document.getElementById('nameError');
+const contactError = document.getElementById('contactError');
+const idCardError = document.getElementById('idCardError');
+const passError = document.getElementById('passError');
+
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (validateForm() && await saveUser()) {
+        form.reset();
+        window.location.href = 'dashboard.html';
+    }
+});
+
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem('users')) || [];
+}
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+
+async function saveUser() {
+
+    const users = getUsers();
+    const hashedPassword = await hashPassword(inputPassword.value.trim());
+
+    const fullName = inputName.value.trim().replace(/\s+/g, " ");
+    const nameParts = fullName.split(" ");
+
+    const firstName = nameParts[0];
+    const lastName = nameParts[1];
+
+    const newUser = {
+        firstName,
+        lastName,
+        contact: inputContact.value.trim(),
+        ID: inputID.value.trim().toUpperCase(),
+        password: hashedPassword,
+        momo: 20,
+        airtime: 5,
+        data: 0,
+        SMS: 0,
+        dateJoined: new Date().toISOString(),
+        welcomeShown: false
+    };
+
+    if (users.some(user => user.contact === newUser.contact)) {
+        contactError.textContent = "Phone number already exists";
+        return false;
+    }
+
+    if (users.some(user => user.ID === newUser.ID)) {
+        idCardError.textContent = "ID already exists";
+        return false;
+    }
+
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+    return true;
+}
+
+
+function validateForm() {
+
+    nameError.textContent = "";
+    contactError.textContent = "";
+    idCardError.textContent = "";
+    passError.textContent = "";
+
+    const fullName = inputName.value.trim().replace(/\s+/g, " ");
+    const nameParts = fullName.split(" ");
+
+    if (nameParts.length !== 2) {
+        nameError.textContent = "Enter First and Last name only";
+        return false;
+    }
+
+    if (!/^0\d{9}$/.test(inputContact.value.trim())) {
+        contactError.textContent = "Enter valid 10 digit phone number";
+        return false;
+    }
+
+    if (!/^GHA-\d{9}-\d{1}$/.test(inputID.value.trim().toUpperCase())) {
+        idCardError.textContent = "ID must be like GHA-123456789-1";
+        return false;
+    }
+
+    if (inputPassword.value.trim().length < 6) {
+        passError.textContent = "Password must be at least 6 characters";
+        return false;
+    }
+
+    return true;
+}
+</script>
 </body>
 </html>

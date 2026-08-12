@@ -1,45 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KwaoConnect - Login</title>
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynk — Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="signup-wrapper">
-        <form action="" id="login">
-            <div class="form-container">
-                <h2 class="logo">KwaoConnect</h2>
-                <p class="subtitle">Join the fastest telecom network in Ghana <br><h4>Login</h4></p>
 
-                <div class="input-group">
-                    <i class="fa-solid fa-phone"></i>
-                    <input id="inputContact" type="tel" placeholder="Enter your phone number" required>
-                </div>
-                <span id="contactError" class="error-text"></span>
+<div class="auth-shell">
+  <div class="auth-card">
 
-                <!-- Password -->
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input id="inputPassword" type="password" placeholder="Enter your password" required>
-                </div>
-                <span id="passwordError" class="error-text"></span>
-
-                <button id="btn" type="submit">Login</button>
-
-                <p class="login-text">
-                    Don’t have an account? <a href="signup.html" id="accountLink">Register here</a>
-                </p>
-
-                <div class="footer-text">
-                    © 2026 KwaoConnect. All rights reserved
-                </div>
-            </div>
-        </form>
+    <div class="brand-mark">
+      <span class="brand-name">Zynk</span>
     </div>
 
-<script src="js/login.js"></script>
+    <h1 class="auth-title">Welcome back</h1>
+    <br>
+    <form id="login" novalidate>
+
+      <div class="field">
+        <label for="inputContact">Phone number</label>
+        <div class="field-input">
+          <i class="fa-solid fa-phone"></i>
+          <input id="inputContact" type="tel" placeholder="024 000 0000" required>
+        </div>
+        <span id="contactError" class="error-text"></span>
+      </div>
+
+      <div class="field">
+        <label for="inputPassword">Password</label>
+        <div class="field-input">
+          <i class="fa-solid fa-lock"></i>
+          <input id="inputPassword" type="password" placeholder="Enter your password" required>
+        </div>
+        <span id="passwordError" class="error-text"></span>
+      </div>
+
+      <button id="btn" type="submit" class="btn btn-primary">Log in</button>
+    </form>
+
+    <p class="switch-text">
+      New to Zynk? <a href="signup.html" id="accountLink">Create an account</a>
+    </p>
+
+    <p class="legal-text">© 2026 Zynk. All rights reserved.</p>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('login');
+const createAccount = document.getElementById('accountLink');
+
+const inputContact = document.getElementById('inputContact');
+const inputPassword = document.getElementById('inputPassword');
+
+const contactError = document.getElementById('contactError');
+const passwordError = document.getElementById('passwordError');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (validateLogin()) {
+        const success = await loginUser();
+        if (success) {
+            window.location.href = 'dashboard.html';
+        }
+    }
+});
+
+createAccount.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'signup.html';
+});
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function loginUser() {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    if (!users.length) {
+        alert('No users found. Please register first.');
+        return false;
+    }
+
+    const hashedPassword = await hashPassword(inputPassword.value.trim());
+
+    const user = users.find(u =>
+        u.contact === inputContact.value.trim() &&
+        u.password === hashedPassword
+    );
+
+    if (!user) {
+        passwordError.textContent = 'Invalid phone number or password';
+        return false;
+    }
+
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    return true;
+}
+
+function validateLogin() {
+    document.querySelectorAll('.error-text').forEach(el => el.textContent = "");
+
+    if (!/^0\d{9}$/.test(inputContact.value.trim())) {
+        contactError.textContent = "Enter a valid phone number";
+        return false;
+    }
+
+    if (inputPassword.value.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters";
+        return false;
+    }
+
+    return true;
+}
+</script>
 </body>
 </html>
