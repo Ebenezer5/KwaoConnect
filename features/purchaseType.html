@@ -1,43 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KwaoConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynk — Who is this for?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <form action="" id="purchaseForm">
-      
-        <div class="purchase-card">
-            <a href="./airtime.html" class="back-arrow">
-                <i class="fas fa-arrow-left"></i>
-            </a>
 
-        <h2>To Who?</h2>
+<div class="app-shell">
+  <div class="app-content" style="max-width:420px;">
 
-        <div class="purchase-type">
-            <label>
-                <input type="radio" name="purchaseFor" value="self" checked> Self
-            </label>
-            <label>
-                <input type="radio" name="purchaseFor" value="someone"> Someone
-            </label>
+    <a href="./airtime.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <form id="purchaseForm" novalidate>
+      <div class="form-card">
+        <div class="page-icon"><i class="fa-solid fa-user-group"></i></div>
+        <h2>Who is this for?</h2>
+        <p class="form-sub">Choose who receives this top-up.</p>
+
+        <div class="pill-group">
+          <label class="pill">
+            <input type="radio" name="purchaseFor" value="self" checked>
+            <span class="pill-face">Myself</span>
+          </label>
+          <label class="pill">
+            <input type="radio" name="purchaseFor" value="someone">
+            <span class="pill-face">Someone else</span>
+          </label>
         </div>
 
+        <div id="someoneNumberWrapper" class="field hidden">
+          <label for="someoneNumber">Recipient's number</label>
+          <div class="field-input">
+            <i class="fa-solid fa-phone"></i>
+            <input id="someoneNumber" type="text" placeholder="024 000 0000">
+          </div>
+          <span id="someoneError" class="error-text"></span>
+        </div>
 
-    <div id="someoneNumberWrapper" class="hidden">
-        <input id="someoneNumber" type="text" placeholder="Enter phone number">
-        <span id="someoneError" class="error-text"></span>
-    </div>
-
-    <button type="submit" id="proceedBtn">Proceed</button>
-</div>
+        <button type="submit" id="proceedBtn" class="btn btn-primary">Continue</button>
+      </div>
     </form>
 
+  </div>
+</div>
 
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser) {
+    window.location.href = "../index.html";
+}
 
-<script src="../js/purchase.js"></script>
+const form = document.getElementById("purchaseForm");
+const someoneWrapper = document.getElementById("someoneNumberWrapper");
+const someoneInput = document.getElementById("someoneNumber");
+
+const someoneError = document.getElementById("someoneError");
+
+const purchaseRadios = document.querySelectorAll('input[name="purchaseFor"]');
+
+purchaseRadios.forEach(radio => {
+    radio.addEventListener("change", () => {
+        if (radio.value === "someone" && radio.checked) {
+            someoneWrapper.classList.remove("hidden");
+        } else {
+            someoneWrapper.classList.add("hidden");
+            someoneInput.value = "";
+            someoneError.textContent = "";
+        }
+    });
+});
+
+form.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+    someoneError.textContent = "";
+
+    const selected = document.querySelector('input[name="purchaseFor"]:checked').value;
+
+    // merge into the purchaseData already set by airtime.html (service, amount)
+    // instead of overwriting it and losing that info
+    let purchaseData = JSON.parse(localStorage.getItem("purchaseData")) || {};
+    purchaseData.type = selected;
+    purchaseData.number = null;
+
+    if (selected === "someone") {
+
+        const number = someoneInput.value.trim();
+
+        if (!/^\d{10}$/.test(number)) {
+            someoneError.textContent = "Enter a valid phone number";
+            return;
+        }
+
+        purchaseData.number = number;
+    }
+
+    localStorage.setItem("purchaseData", JSON.stringify(purchaseData));
+
+    window.location.href = "../features/payment.html";
+});
+</script>
 </body>
 </html>

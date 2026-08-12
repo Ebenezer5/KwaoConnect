@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KwaoConnect - Airtime</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynk — Buy airtime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    
-        <form action="" id="airtime">
-            <div class="form-container">
-                <a href="../dashboard.html" class="back-arrow">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-                <h2 class="logo"><i class="fa-solid fa-phone"></i>
-                    Buy Airtime</h2>
-                    <p class="subtitle">Buy GHS 5, 10, 20</p>
 
-                <div class="input-group">
-                    <input id="inputAirtime" type="number" placeholder="Between 1GHc - 50GHc" required>
-                </div>
-                <span id="airtimeError" class="error-text"></span>
+<div class="app-shell">
+  <div class="app-content" style="max-width:420px;">
 
-                <button id="btn" type="submit"><b>Proceed</b></button>
-            </div>
-        </form>
+    <a href="../dashboard.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Dashboard
+    </a>
 
-<script src="../js/airtime.js"></script>
+    <form id="airtime" novalidate>
+      <div class="form-card">
+        <div class="page-icon"><i class="fa-solid fa-phone"></i></div>
+        <h2>Buy airtime</h2>
+        <br>
+        <div class="field">
+          <label for="inputAirtime">Amount</label>
+          <div class="amount-input-wrap">
+            <span class="currency">GHS</span>
+            <input id="inputAirtime" type="number" placeholder="0.00" required>
+          </div>
+          <span id="airtimeError" class="error-text"></span>
+        </div>
+
+        <button id="btn" type="submit" class="btn btn-primary">Continue</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser) {
+    window.location.href = "../index.html";
+}
+
+const airtime = document.getElementById('airtime');
+const inputAirtime = document.getElementById('inputAirtime');
+const airtimeError = document.getElementById('airtimeError');
+
+airtime.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (validateAirtime()) {
+
+        const amount = Number(inputAirtime.value.trim());
+
+        localStorage.setItem("purchaseAmount", amount);
+        localStorage.setItem("purchaseData", JSON.stringify({
+            service: "airtime",
+            amount: amount,
+            type: "self",
+            number: null
+        }));
+
+        window.location.href = '../features/purchaseType.html';
+    }
+});
+
+function validateAirtime() {
+
+    const amount = Number(inputAirtime.value.trim());
+
+    if (isNaN(amount) || amount <= 0) {
+        airtimeError.textContent = "Enter an amount greater than 0";
+        return false;
+    }
+
+    if (amount > 50) {
+        airtimeError.textContent = "Maximum top-up is GHS 50";
+        return false;
+    }
+
+    airtimeError.textContent = "";
+    return true;
+}
+</script>
 </body>
 </html>

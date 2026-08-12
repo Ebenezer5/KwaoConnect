@@ -3,21 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KwaoConnect</title>
-<link rel="stylesheet" href="../css/success.css">
+<title>Zynk — Purchase complete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
 <body>
-<div class="success-card">
-    <div class="checkmark">✔</div>
-    <h2>Purchase Successful</h2>
-    <p id="successDetails"></p>
-    <button id="backDashboard">Back to Dashboard</button>
+
+<div class="success-shell">
+  <div class="stub">
+    <div class="stub-tear"></div>
+    <div class="stub-body">
+      <div class="stub-check"><i class="fa-solid fa-check"></i></div>
+      <h2>Purchase successful</h2>
+      <p id="successDetails" class="mono"></p>
+      <button id="backDashboard" class="btn btn-dark">Back to dashboard</button>
+    </div>
+  </div>
 </div>
 
+<script>
+const successDetails = document.getElementById("successDetails");
+const backDashboard = document.getElementById("backDashboard");
 
+const amount = localStorage.getItem("purchaseAmount");
+const purchaseData = JSON.parse(localStorage.getItem("purchaseData") || "null");
 
-<script src="../js/success.js"></script>
+const networkNames = { mtn: "MTN", telecel: "Telecel", at: "AirtelTigo" };
+const networkTag = (purchaseData && purchaseData.network && networkNames[purchaseData.network])
+    ? ` (${networkNames[purchaseData.network]})`
+    : "";
+
+if (!amount || !purchaseData) {
+    successDetails.textContent = "Your purchase was completed successfully.";
+} else if (purchaseData.type === "self") {
+    successDetails.textContent = `You purchased GHS ${amount}${networkTag} for yourself.`;
+} else {
+    successDetails.textContent =
+        `You purchased GHS ${amount}${networkTag} for ${purchaseData.number}.`;
+}
+
+localStorage.removeItem("purchaseAmount");
+localStorage.removeItem("purchaseData");
+
+backDashboard.addEventListener("click", () => {
+    window.location.href = "../dashboard.html";
+});
+</script>
 </body>
 </html>

@@ -3,45 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KwaoConnect - Payment</title>
-<link rel="stylesheet" href="../css/payment.css">
+<title>Zynk — Payment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
 <body>
 
-    <div class="payment-card">
-                    <a href="../features/purchaseType.html" class="back-arrow">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
-        <h2><i class="fa-solid fa-credit-card"></i> Payment</h2>
+<div class="app-shell">
+  <div class="app-content" style="max-width:420px;">
 
-        <div class="amount-box">
-            Amount: GHS <span id="displayAmount"></span>
+    <a href="../features/purchaseType.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <form id="paymentForm" novalidate>
+      <div class="form-card">
+        <div class="page-icon"><i class="fa-solid fa-credit-card"></i></div>
+        <h2>Pay for your order</h2>
+        <p class="form-sub">Choose how you'd like to pay.</p>
+
+        <div class="amount-callout">
+          <div class="eyebrow" id="amountEyebrow">Amount due</div>
+          <div class="value">GHS <span id="displayAmount"></span></div>
         </div>
 
-        <form id="paymentForm">
+        <label class="method-card">
+          <input type="radio" name="paymentMethod" value="airtime">
+          <span class="method-face">
+            <span class="icon-chip"><i class="fa-solid fa-phone"></i></span>
+            <span class="method-face-text">
+              <span class="method-face-title">Airtime balance</span>
+              <span class="method-face-balance" id="airtimeBalanceText"></span>
+            </span>
+          </span>
+        </label>
 
-            <div class="payment-options">
-                <label>
-                    <input type="radio" name="paymentMethod" value="airtime">
-                    Pay with Airtime Balance
-                </label>
+        <label class="method-card">
+          <input type="radio" name="paymentMethod" value="momo">
+          <span class="method-face">
+            <span class="icon-chip"><i class="fa-solid fa-wallet"></i></span>
+            <span class="method-face-text">
+              <span class="method-face-title">Mobile Money</span>
+              <span class="method-face-balance" id="momoBalanceText"></span>
+            </span>
+          </span>
+        </label>
 
-                <label>
-                    <input type="radio" name="paymentMethod" value="momo">
-                    Pay with Mobile Money (MoMo)
-                </label>
-            </div>
+        <span id="paymentError" class="error-text"></span>
 
-            <span id="paymentError" class="error-text"></span>
+        <button type="submit" class="btn btn-primary mt-16">Confirm payment</button>
+      </div>
+    </form>
 
-            <button type="submit">Confirm Payment</button>
+  </div>
+</div>
 
-        </form>
+<script>
+(function () {
 
-    </div>
+const paymentForm = document.getElementById("paymentForm");
+const displayAmount = document.getElementById("displayAmount");
 
-<script src="../js/payment.js"></script>
+const paymentError = document.getElementById("paymentError");
+const airtimeBalanceText = document.getElementById("airtimeBalanceText");
+const momoBalanceText = document.getElementById("momoBalanceText");
+
+const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
+
+let amount = Number(localStorage.getItem("purchaseAmount")) || 0;
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let purchaseData = JSON.parse(localStorage.getItem("purchaseData")) || {};
+
+if (!currentUser || !amount) {
+    window.location.href = "../dashboard.html";
+    return;
+}
+
+currentUser.airtime = currentUser.airtime ?? 0;
+currentUser.momo = currentUser.momo ?? 0;
+
+displayAmount.textContent = amount.toFixed(2);
+airtimeBalanceText.textContent = `Balance: GHS ${currentUser.airtime.toFixed(2)}`;
+momoBalanceText.textContent = `Balance: GHS ${currentUser.momo.toFixed(2)}`;
+
+const networkNames = { mtn: "MTN", telecel: "Telecel", at: "AirtelTigo" };
+const amountEyebrow = document.getElementById("amountEyebrow");
+if (purchaseData.network && networkNames[purchaseData.network]) {
+    amountEyebrow.textContent = `Amount due — ${networkNames[purchaseData.network]}`;
+}
+
+paymentForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    paymentError.textContent = "";
+
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+    if (!selectedMethod) {
+        paymentError.textContent = "Select a payment method to continue";
+        return;
+    }
+
+    const method = selectedMethod.value;
+
+    if (currentUser[method] < amount) {
+        paymentError.textContent = `Insufficient ${method === "momo" ? "Mobile Money" : "airtime"} balance`;
+        return;
+    }
+
+    currentUser[method] -= amount;
+
+    // credit the thing that was actually purchased
+    if (purchaseData.service === "airtime") {
+        currentUser.airtime += purchaseData.amount;
+    } else if (purchaseData.service === "data") {
+        currentUser.data = (currentUser.data ?? 0) + purchaseData.amount;
+    }
+
+    const userIndex = users.findIndex(user => user.ID === currentUser.ID);
+
+    if (userIndex !== -1) {
+        users[userIndex] = currentUser;
+    }
+
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    localStorage.setItem("users", JSON.stringify(users));
+
+    paymentForm.querySelector("button").disabled = true;
+
+    localStorage.removeItem("purchaseAmount");
+
+    window.location.href = "../features/success.html";
+});
+
+})();
+</script>
 </body>
 </html>

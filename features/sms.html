@@ -1,143 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SMS Bundle - KwaoConnect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../css/packages.css">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ff6600, #ff944d);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background: #ffffff;
-            width: 95%;
-            max-width: 450px;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #ff6600;
-        }
-
-        .sms-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
-        .package-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: #f7f7f7;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .package-card:hover {
-            background: #ffe5d6;
-        }
-
-        .package-card.active {
-            background: #ff6600;
-            color: white;
-            font-weight: bold;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        #balanceInfo {
-            font-size: 13px;
-            margin-bottom: 15px;
-            color: #444;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #ff6600;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #e65c00;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynk — Buy SMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="app-shell">
+  <div class="app-content" style="max-width:420px;">
 
-    <h2>Buy SMS Bundle</h2>
+    <a href="../dashboard.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Dashboard
+    </a>
 
-    <form id="smsForm">
+    <form id="smsForm" novalidate>
+      <div class="form-card">
+        <div class="page-icon"><i class="fa-solid fa-message"></i></div>
+        <h2>Buy SMS bundle</h2>
+        <br>
+        <div class="data-grid" id="smsGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
+        <span id="packageError" class="error-text"></span>
 
-        <h3>Select Package</h3>
-        <div class="sms-grid" id="smsGrid"></div>
-        <small id="packageError" class="error"></small>
+        <h3 class="section-title">Payment method</h3>
 
-        <h3>Payment Method</h3>
-        <select id="paymentMethod">
-            <option value="">Select Payment Method</option>
-            <option value="airtime">Pay with Airtime</option>
-            <option value="momo">Pay with MoMo</option>
-        </select>
+        <label class="method-card">
+          <input type="radio" name="paymentMethod" value="airtime">
+          <span class="method-face">
+            <span class="icon-chip"><i class="fa-solid fa-phone"></i></span>
+            <span class="method-face-text">
+              <span class="method-face-title">Airtime balance</span>
+            </span>
+          </span>
+        </label>
 
-        <p id="balanceInfo"></p>
+        <label class="method-card">
+          <input type="radio" name="paymentMethod" value="momo">
+          <span class="method-face">
+            <span class="icon-chip"><i class="fa-solid fa-wallet"></i></span>
+            <span class="method-face-text">
+              <span class="method-face-title">Mobile Money</span>
+            </span>
+          </span>
+        </label>
 
-        <button type="submit">Proceed</button>
+        <p id="balanceInfo" class="form-sub" style="margin:6px 0 0;"></p>
 
+        <button type="submit" class="btn btn-primary mt-16">Continue</button>
+      </div>
     </form>
 
+  </div>
 </div>
 
-<script src="../js/sms.js"></script>
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser) {
+    window.location.href = "../index.html";
+}
+
+const smsGrid = document.getElementById("smsGrid");
+const form = document.getElementById("smsForm");
+
+const paymentMethod = document.querySelectorAll('input[name="paymentMethod"]');
+
+const packageError = document.getElementById("packageError");
+const balanceInfo = document.getElementById("balanceInfo");
+
+let selectedSMS = null;
+let price = null;
+
+const packages = [
+    { sms: 5, price: 1 },
+    { sms: 50, price: 5 },
+    { sms: 100, price: 10 }
+];
+
+packages.forEach(pkg => {
+
+    const label = document.createElement("label");
+    label.className = "data-card";
+    label.innerHTML = `
+        <input type="radio" name="smsPackage" value="${pkg.sms}">
+        <span class="data-face">
+            <span class="gb">${pkg.sms}</span>
+            <span class="price">GHS ${pkg.price}</span>
+        </span>
+    `;
+
+    label.querySelector("input").addEventListener("change", () => {
+        selectedSMS = pkg.sms;
+        price = pkg.price;
+    });
+
+    smsGrid.appendChild(label);
+});
+
+paymentMethod.forEach(radio => {
+    radio.addEventListener("change", () => {
+
+        if (radio.value === "airtime" && radio.checked) {
+            balanceInfo.textContent =
+                `Your Airtime Balance: GHS ${currentUser.airtime.toFixed(2)}`;
+        }
+        else if (radio.value === "momo" && radio.checked) {
+            balanceInfo.textContent =
+                `Your MoMo Balance: GHS ${currentUser.momo.toFixed(2)}`;
+        }
+    });
+});
+
+form.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    packageError.textContent = "";
+
+    if (!selectedSMS) {
+        packageError.textContent = "Select a package";
+        return;
+    }
+
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+    if (!selectedMethod) {
+        packageError.textContent = "Select a payment method";
+        return;
+    }
+
+    const method = selectedMethod.value;
+
+    if (method === "airtime") {
+
+        if (currentUser.airtime < price) {
+            packageError.textContent = "Insufficient Airtime balance";
+            return;
+        }
+
+        currentUser.airtime -= price;
+    }
+
+    if (method === "momo") {
+
+        if (currentUser.momo < price) {
+            packageError.textContent = "Insufficient Mobile Money balance";
+            return;
+        }
+
+        currentUser.momo -= price;
+    }
+
+    currentUser.SMS += selectedSMS;
+
+    let users = JSON.parse(localStorage.getItem("users"));
+    const index = users.findIndex(u => u.ID === currentUser.ID);
+    users[index] = currentUser;
+
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    localStorage.setItem("purchaseAmount", price);
+    localStorage.setItem("purchaseData", JSON.stringify({
+        service: "sms",
+        amount: selectedSMS,
+        price: price,
+        type: "self",
+        number: null
+    }));
+
+    form.querySelector("button").disabled = true;
+
+    window.location.href = "../features/success.html";
+});
+</script>
 </body>
 </html>
