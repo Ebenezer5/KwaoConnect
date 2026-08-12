@@ -1,6 +1,6 @@
-# 📡 KwaoConnect
+# 📡 Zynk
 
-KwaoConnect is a telecom simulation web application that allows users to buy Airtime, Data, and SMS bundles using a virtual wallet system.
+Zynk is a telecom simulation web application that allows users to buy Airtime, Data, and SMS bundles using a virtual wallet system.
 
 This project was built as a frontend telecom system simulation to demonstrate authentication, local storage management, session handling, and dynamic balance updates using JavaScript.
 
